@@ -45,7 +45,7 @@ const updateBootcamp = (req, res) => {
 // @route   DELETE /api/v1/bootcamps/
 // @access  Private
 const deleteBootcamp = (req, res) => {
-    res.status(200).json({
+    res.status(202).json({
         success: true,
         message: `delete bootcamp ${req.params.id}`,
     })
