@@ -9,6 +9,14 @@ dotenv.config({
 const app = express()
 const PORT = process.env.PORT || 3000
 
+const logger = (req, res, next) => {
+    req.hello = 'Hello world'
+    console.log('Middleware triggered')
+    next()
+}
+
+app.use(logger)
+
 const data = { name: "John", age: 30 }
 
 app.use("/api/v1/bootcamps", bootcampsRouter)

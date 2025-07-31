@@ -3,10 +3,11 @@
 // @desc    Get all bootcamps
 // @route   GET /api/v1/bootcamps
 // @access  Public
-const getBootcamps = (req, res) => {
+const getAllBootcamps = (req, res) => {
     res.status(200).json({
         success: true,
         message: `Show all bootcamps`,
+        hello: req.hello
     })
 }
 
@@ -16,7 +17,7 @@ const getBootcamps = (req, res) => {
 const getBootcamp = (req, res) => {
     res.status(200).json({
         success: true,
-        message: `Show all bootcamps`,
+        message: `Show bootcamp: ${req.params.id}`,
     })
 }
 
@@ -46,8 +47,8 @@ const updateBootcamp = (req, res) => {
 const deleteBootcamp = (req, res) => {
     res.status(200).json({
         success: true,
-        message: `update bootcamp ${req.params.id}`,
+        message: `delete bootcamp ${req.params.id}`,
     })
 }
 
-export { getBootcamps, getBootcamp, createBootcamp, updateBootcamp, deleteBootcamp }
+export { getAllBootcamps, getBootcamp, createBootcamp, updateBootcamp, deleteBootcamp }

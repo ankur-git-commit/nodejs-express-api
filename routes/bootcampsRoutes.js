@@ -1,6 +1,6 @@
 import { Router } from "express"
 import {
-    getBootcamps,
+    getAllBootcamps,
     getBootcamp,
     createBootcamp,
     updateBootcamp,
@@ -9,7 +9,13 @@ import {
 
 const router = Router()
 
-router.route("/").get(getBootcamps).post(createBootcamp)
-router.route("/:id").get(getBootcamp).put(updateBootcamp).delete(deleteBootcamp)
+router.route("/")
+    .get(getAllBootcamps)
+    .post(createBootcamp)
+
+router.route("/:id")
+    .get(getBootcamp)
+    .put(updateBootcamp)
+    .delete(deleteBootcamp)
 
 export { router as bootcampsRouter }
