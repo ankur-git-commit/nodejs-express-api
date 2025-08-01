@@ -1,0 +1,317 @@
+[
+	{
+		"_id": "5d7a514b5d2c12c7449be042",
+		"name": "Admin Account",
+		"email": "admin@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5d7a514b5d2c12c7449be043",
+		"name": "Publisher Account",
+		"email": "publisher@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "5d7a514b5d2c12c7449be044",
+		"name": "User Account",
+		"email": "user@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5d7a514b5d2c12c7449be045",
+		"name": "John Doe",
+		"email": "john@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "5d7a514b5d2c12c7449be046",
+		"name": "Kevin Smith",
+		"email": "kevin@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc031",
+		"name": "Mary Williams",
+		"email": "mary@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc032",
+		"name": "Sasha Ryan",
+		"email": "sasha@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc033",
+		"name": "Greg Harris",
+		"email": "greg@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc034",
+		"name": "Derek Glover",
+		"email": "derek@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc035",
+		"name": "Stephanie Hanson",
+		"email": "steph@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc036",
+		"name": "Jerry Wiliams",
+		"email": "jerry@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc037",
+		"name": "Maggie Johnson",
+		"email": "maggie@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc038",
+		"name": "Barry Dickens",
+		"email": "barry@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc039",
+		"name": "Ryan Bolin",
+		"email": "ryan@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "5c8a1d5b0190b214360dc040",
+		"name": "Sara Kensing",
+		"email": "sara@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc041",
+		"name": "Alex Chen",
+		"email": "alex.chen@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc042",
+		"name": "Maria Rodriguez",
+		"email": "maria.rodriguez@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc043",
+		"name": "David Thompson",
+		"email": "david.thompson@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc044",
+		"name": "Dr. Sarah Mitchell",
+		"email": "sarah.mitchell@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc045",
+		"name": "Robert Johnson",
+		"email": "robert.johnson@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc046",
+		"name": "Jennifer Kim",
+		"email": "jennifer.kim@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc047",
+		"name": "Michael Brown",
+		"email": "michael.brown@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc048",
+		"name": "Lisa Anderson",
+		"email": "lisa.anderson@gmail.com",
+		"role": "publisher",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc049",
+		"name": "James Wilson",
+		"email": "james.wilson@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc050",
+		"name": "Emily Davis",
+		"email": "emily.davis@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc051",
+		"name": "Christopher Lee",
+		"email": "christopher.lee@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc052",
+		"name": "Amanda White",
+		"email": "amanda.white@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc053",
+		"name": "Daniel Martinez",
+		"email": "daniel.martinez@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc054",
+		"name": "Ashley Taylor",
+		"email": "ashley.taylor@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc055",
+		"name": "Matthew Garcia",
+		"email": "matthew.garcia@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc056",
+		"name": "Jessica Miller",
+		"email": "jessica.miller@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc057",
+		"name": "Andrew Clark",
+		"email": "andrew.clark@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc058",
+		"name": "Rachel Turner",
+		"email": "rachel.turner@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc059",
+		"name": "Kevin Moore",
+		"email": "kevin.moore@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc060",
+		"name": "Samantha Hill",
+		"email": "samantha.hill@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc061",
+		"name": "Brian Lewis",
+		"email": "brian.lewis@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc062",
+		"name": "Nicole Walker",
+		"email": "nicole.walker@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc063",
+		"name": "Tyler Young",
+		"email": "tyler.young@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc064",
+		"name": "Lauren Hall",
+		"email": "lauren.hall@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc065",
+		"name": "Jordan Scott",
+		"email": "jordan.scott@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc066",
+		"name": "Megan Adams",
+		"email": "megan.adams@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc067",
+		"name": "Nathan Green",
+		"email": "nathan.green@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc068",
+		"name": "Victoria Baker",
+		"email": "victoria.baker@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc069",
+		"name": "Justin Rivera",
+		"email": "justin.rivera@gmail.com",
+		"role": "user",
+		"password": "123456"
+	},
+	{
+		"_id": "6c8a1d5b0190b214360dc070",
+		"name": "Stephanie Cooper",
+		"email": "stephanie.cooper@gmail.com",
+		"role": "user",
+		"password": "123456"
+	}
+]
