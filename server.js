@@ -14,6 +14,10 @@ connectDB()
 const app = express()
 const PORT = process.env.PORT || 3000
 
+// body parser
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true})) // for parsing application/x-www-form-urlencoded
+
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
     // app.use(logger)
