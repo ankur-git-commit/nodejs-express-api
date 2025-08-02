@@ -13,7 +13,6 @@ const BootcampSchema = new mongoose.Schema(
         description: {
             type: String,
             required: [true, "Please add a description"],
-            unique: true,
             maxlength: [500, "Name cannot be more than 500 characters"],
         },
         website: {
