@@ -84,6 +84,9 @@ const BootcampSchema = new mongoose.Schema(
                 "Data Science",
                 "Business",
                 "Other",
+                "Research & Development",
+                "Quantum Computing",
+                'Product Management'
             ],
         },
         averageRating: {

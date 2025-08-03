@@ -1,16 +1,18 @@
-import express from "express"
 import dotenv from "dotenv"
+dotenv.config({
+    path: "./config/config.env",
+})
+import express from "express"
 import connectDB from "./config/db.js"
 import colors from "colors"
 import morgan from "morgan"
 import { bootcampsRouter } from "./routes/bootcampsRoutes.js"
 import errorHandler from "./middleware/error.js"
+import "./utils/geocoder.js"
 // import logger from "./middleware/logger.js"
 
-dotenv.config({
-    path: "./config/config.env",
-})
 connectDB()
+
 
 const app = express()
 const PORT = process.env.PORT || 3000
