@@ -11,6 +11,7 @@ import { fileURLToPath } from "url"
 
 // Load models
 import Bootcamp from "./models/Bootcamp.js"
+import Course from "./models/course.js"
 
 //Connect to DB
 import connectDB from "./config/db.js"
@@ -20,15 +21,22 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Read JSON files
+// bootcamps
 const bootcamps = JSON.parse(
     fs.readFileSync(`${__dirname}/_data/bootcamps.json`, "utf-8")
 )
+// course
+const course = JSON.parse(
+    fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8')
+)
+
 
 // Import into DB
 const importData = async () => {
     try {
         
         await Bootcamp.create(bootcamps)
+        await Course.create(course)
         console.log(`Data imported to MongoDB...`.green.inverse)
         process.exit()
     } catch (error) {
@@ -41,6 +49,7 @@ const importData = async () => {
 const deleteData = async () => {
     try {
         await Bootcamp.deleteMany()
+        await Course.deleteMany()
         console.log(`Data deleted in MongoDB...`.red.inverse)
         process.exit()
     } catch (error) {
