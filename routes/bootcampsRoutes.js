@@ -8,7 +8,13 @@ import {
     getBootcampsInRadius,
 } from "../controllers/bootcampController.js"
 
+// Include other resource routers
+import { coursesRouter } from "./coursesRoutes.js"
+
 const router = Router()
+
+// Re-route into other resource routers
+router.use('/:bootcampId/courses', coursesRouter)
 
 router.route("/")
     .get(getAllBootcamps)

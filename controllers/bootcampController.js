@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/async.js"
 import ErrorResponse from "../utils/errorResponse.js"
 import Bootcamp from "../models/Bootcamp.js"
+import Course from "../models/Course.js"
 import geocoder from "../utils/geocoder.js"
 import mongoose from "mongoose"
 mongoose.set("debug", true)
@@ -46,7 +47,7 @@ const getAllBootcamps = asyncHandler(async (req, res, next) => {
         queryObj[field] = { $in: inQueries[field] }
     })
 
-    let query = Bootcamp.find(queryObj)
+    let query = Bootcamp.find(queryObj).populate("courses")
 
     // Select fields
     if (req.query.select) {
@@ -69,7 +70,7 @@ const getAllBootcamps = asyncHandler(async (req, res, next) => {
     const endIndex = page * limit
     const total = await Bootcamp.countDocuments()
 
-    console.log(page, limit);
+    console.log(page, limit)
 
     query = query.skip(startIndex).limit(limit)
 
@@ -161,7 +162,7 @@ const updateBootcamp = asyncHandler(async (req, res, next) => {
 const deleteBootcamp = asyncHandler(async (req, res, next) => {
     const { id } = req.params
 
-    const bootcamp = await Bootcamp.findByIdAndDelete(id)
+    const bootcamp = await Bootcamp.findById(id)
 
     if (!bootcamp) {
         return res.status(404).json({
@@ -169,6 +170,13 @@ const deleteBootcamp = asyncHandler(async (req, res, next) => {
             message: `item not found`,
         })
     }
+
+    // Manually delete courses since .remove() in mongoose is deprecated
+    await Course.deleteMany({ bootcamp: bootcamp._id })
+
+    // Delete bootcamp
+    await Bootcamp.deleteOne({ _id: id })
+
     res.status(200).json({
         success: true,
         data: bootcamp,

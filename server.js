@@ -7,12 +7,12 @@ import connectDB from "./config/db.js"
 import colors from "colors"
 import morgan from "morgan"
 import { bootcampsRouter } from "./routes/bootcampsRoutes.js"
+import { coursesRouter } from "./routes/coursesRoutes.js"
 import errorHandler from "./middleware/error.js"
 import "./utils/geocoder.js"
 // import logger from "./middleware/logger.js"
 
 connectDB()
-
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -29,6 +29,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Mount routers
 app.use("/api/v1/bootcamps", bootcampsRouter)
+app.use("/api/v1/courses", coursesRouter)
 
 // custom error handler
 app.use(errorHandler)
