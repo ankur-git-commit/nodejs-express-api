@@ -23,6 +23,29 @@ const advancedResults = (model, populate) => async (req, res, next) => {
         }
     })
 
+    // Extract comparison operators [gt], [gte], [lt], [lte]
+    const comparisonQueries = {}
+    Object.keys(reqQuery).forEach((key) => {
+        const match = key.match(/^(.+)\[(gt|gte|lt|lte)\]$/)
+        if (match) {
+            const field = match[1]
+            const operator = match[2]
+
+            if (!comparisonQueries[field]) {
+                comparisonQueries[field] = {}
+            }
+
+            // Convert string to number if it's a valid number
+            let value = reqQuery[key]
+            if (!isNaN(value) && !isNaN(parseFloat(value))) {
+                value = parseFloat(value)
+            }
+
+            comparisonQueries[field][`$${operator}`] = value
+            delete reqQuery[key]
+        }
+    })
+
     // Stringify, replace, and parse the rest (for gt, gte, etc)
     let queryStr = JSON.stringify(reqQuery)
 
@@ -34,6 +57,24 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     // 4. Merge in your $in queries
     Object.keys(inQueries).forEach((field) => {
         queryObj[field] = { $in: inQueries[field] }
+    })
+
+    // Merge in your $in queries
+    Object.keys(inQueries).forEach((field) => {
+        queryObj[field] = { $in: inQueries[field] }
+    })
+
+    // Merge in comparison queries
+    Object.keys(comparisonQueries).forEach((field) => {
+        if (queryObj[field]) {
+            // If field already exists, merge the operators
+            queryObj[field] = {
+                ...queryObj[field],
+                ...comparisonQueries[field],
+            }
+        } else {
+            queryObj[field] = comparisonQueries[field]
+        }
     })
 
     let query = model.find(queryObj)
@@ -63,7 +104,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 
     query = query.skip(startIndex).limit(limit)
 
-    if (populate){
+    if (populate) {
         query = query.populate(populate)
     }
 

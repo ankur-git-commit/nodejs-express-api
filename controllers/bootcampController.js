@@ -4,14 +4,14 @@ import Bootcamp from "../models/Bootcamp.js"
 import Course from "../models/Course.js"
 import geocoder from "../utils/geocoder.js"
 import path from "path"
-import mongoose from "mongoose"
+// import mongoose from "mongoose"
 // mongoose.set("debug", true)
 
 // @desc    Get all bootcamps
 // @route   GET /api/v1/bootcamps
 // @access  Public
 const getAllBootcamps = asyncHandler(async (req, res, next) => {
-    console.log(res.advancedResults)
+    // console.log(res.advancedResults)
 
     res.status(200).json(res.advancedResults)
 })

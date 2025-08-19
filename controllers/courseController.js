@@ -3,33 +3,27 @@ import asyncHandler from "../middleware/async.js"
 import Course from "../models/Course.js"
 import Bootcamp from "../models/Bootcamp.js"
 import mongoose from "mongoose"
-mongoose.set("debug", true)
+// mongoose.set("debug", true)
 
-// @desc    Get all courses
+// @desc    Get all courses or Get courses for bootcamp
 // @route   GET /api/v1/courses
 // @route   GET /api/v1/bootcamps/:bootcampId/courses
 // @access  Public
 const getCourses = asyncHandler(async (req, res, next) => {
-    let query
     // console.log(req.params)
     if (req.params.bootcampId) {
-        query = Course.find({
+        const course = await Course.find({
             bootcamp: req.params.bootcampId,
         })
+        res.status(200).json({
+        success: true,
+        count: course.length,
+        data: course,
+    })
     } else {
-        query = Course.find().populate({
-            path: "bootcamp",
-            select: "name description",
-        })
+        res.status(200).json(res.advancedResults)
     }
 
-    const courses = await query
-
-    res.status(200).json({
-        success: true,
-        count: courses.length,
-        data: courses,
-    })
 })
 // @desc    Get a single course
 // @route   GET /api/v1/courses/:id
