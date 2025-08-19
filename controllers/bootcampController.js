@@ -3,103 +3,17 @@ import ErrorResponse from "../utils/errorResponse.js"
 import Bootcamp from "../models/Bootcamp.js"
 import Course from "../models/Course.js"
 import geocoder from "../utils/geocoder.js"
+import path from "path"
 import mongoose from "mongoose"
-mongoose.set("debug", true)
+// mongoose.set("debug", true)
 
 // @desc    Get all bootcamps
 // @route   GET /api/v1/bootcamps
 // @access  Public
 const getAllBootcamps = asyncHandler(async (req, res, next) => {
-    const reqQuery = { ...req.query }
-    console.log(reqQuery)
+    console.log(res.advancedResults)
 
-    // Fields to exclude
-    const removeFields = ["select", "sort", "page", "limit"]
-
-    // loop over removeFields and delete them from reqQuery
-    removeFields.forEach((param) => {
-        delete reqQuery[param]
-    })
-
-    // console.log(reqQuery);
-    // Extract all fields that use [in]
-    const inQueries = {}
-    Object.keys(reqQuery).forEach((key) => {
-        const match = key.match(/^(.+)\[in\]$/)
-        if (match) {
-            inQueries[match[1]] = reqQuery[key]
-                .split(",")
-                .map((str) => str.trim())
-            delete reqQuery[key]
-        }
-    })
-
-    // Stringify, replace, and parse the rest (for gt, gte, etc)
-    let queryStr = JSON.stringify(reqQuery)
-
-    // Create operators
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`)
-
-    let queryObj = JSON.parse(queryStr)
-
-    // 4. Merge in your $in queries
-    Object.keys(inQueries).forEach((field) => {
-        queryObj[field] = { $in: inQueries[field] }
-    })
-
-    let query = Bootcamp.find(queryObj).populate("courses")
-
-    // Select fields
-    if (req.query.select) {
-        const fields = req.query.select.split(",").join(" ")
-        query = query.select(fields)
-    }
-
-    // Sort
-    if (req.query.sort) {
-        const sortBy = req.query.sort.split(",").join(" ")
-        query = query.sort(sortBy)
-    } else {
-        query = query.sort("-createdAt")
-    }
-
-    // Pagination
-    const page = parseInt(req.query.page, 10) || 1
-    const limit = parseInt(req.query.limit, 10) || 25
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
-    const total = await Bootcamp.countDocuments()
-
-    console.log(page, limit)
-
-    query = query.skip(startIndex).limit(limit)
-
-    // Execute the query
-    const bootcamps = await query
-
-    // Pagination result
-    const pagination = {}
-
-    if (endIndex < total) {
-        pagination.next = {
-            page: page + 1,
-            limit: limit,
-        }
-    }
-
-    if (startIndex > 0) {
-        pagination.prev = {
-            page: page - 1,
-            limit: limit,
-        }
-    }
-
-    res.status(200).json({
-        success: true,
-        count: bootcamps.length,
-        pagination: pagination,
-        data: bootcamps,
-    })
+    res.status(200).json(res.advancedResults)
 })
 
 // @desc    Get single bootcamps based on id param
@@ -215,6 +129,60 @@ const getBootcampsInRadius = asyncHandler(async (req, res, next) => {
     })
 })
 
+//@desc     Upload photo for bootcamp
+//@route    PUT /api/v1/bootcamps/:id/photo
+//@access   Private
+const bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
+    const { id } = req.params
+
+    const bootcamp = await Bootcamp.findById(id)
+
+    if (!bootcamp) {
+        return next(
+            new ErrorResponse(`Bootcamp not found with the id of ${id}`, 404)
+        )
+    }
+
+    if (!req.files) {
+        return next(new ErrorResponse(`Please upload a file`, 400))
+    }
+
+    const file = req.files.file
+
+    // Make sure the image is a photo
+    if (!file.mimetype.startsWith("image")) {
+        return next(new ErrorResponse("Please upload an image file", 400))
+    }
+
+    // Check file size
+    if (file.size > process.env.MAX_FILE_UPLOAD_SIZE) {
+        return next(
+            new ErrorResponse(
+                `Please upload an image less than ${process.env.MAX_FILE_UPLOAD_SIZE}`,
+                400
+            )
+        )
+    }
+
+    // Create custom file name
+    file.name = `photo_${req.params.id}${path.parse(file.name).ext}`
+    console.log(file)
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+        if (err) {
+            console.err(err)
+            return next(new ErrorResponse(`Problem with file upload`, 500))
+        }
+
+        await Bootcamp.findByIdAndUpdate(id, { photo: file.name })
+
+        res.status(200).json({
+            success: true,
+            message: "file uploaded",
+            data: file.name,
+        })
+    })
+})
+
 export {
     getAllBootcamps,
     getBootcamp,
@@ -222,4 +190,5 @@ export {
     updateBootcamp,
     deleteBootcamp,
     getBootcampsInRadius,
+    bootcampPhotoUpload,
 }

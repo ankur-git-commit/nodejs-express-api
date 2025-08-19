@@ -57,12 +57,15 @@ const getCourse = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/bootcamps/:bootcampId/courses
 // @access  Private
 const addCourse = asyncHandler(async (req, res, next) => {
+    console.log("test")
     req.body.bootcamp = req.params.bootcampId
     const bootcampIdData = req.body.bootcamp
 
     const bootcamp = await Bootcamp.findById(bootcampIdData)
     if (!bootcamp) {
-        return new ErrorResponse(`No bootcamp with the id of ${bootcampIdData}`)
+        return next(
+            new ErrorResponse(`No bootcamp with the id of ${bootcampIdData}`)
+        )
     }
 
     const course = await Course.create(req.body)
@@ -85,7 +88,7 @@ const updateCourse = asyncHandler(async (req, res, next) => {
     })
 
     if (!course) {
-        return new ErrorResponse(`Course with ${id} couldn't be update`)
+        return next(new ErrorResponse(`Course with ${id} couldn't be update`))
     }
     res.status(200).json({
         success: true,
@@ -102,7 +105,7 @@ const deleteCourse = asyncHandler(async (req, res, next) => {
     const course = await Course.findByIdAndDelete(id)
 
     if (!course) {
-        return new ErrorResponse(`Course with ${id} couldn't be update`)
+        return next(new ErrorResponse(`Course with ${id} couldn't be update`))
     }
     res.status(200).json({
         success: true,
