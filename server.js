@@ -6,6 +6,7 @@ dotenv.config({
 
 import express from "express"
 import fileUpload from "express-fileupload"
+import cookieParser from "cookie-parser"
 import connectDB from "./config/db.js"
 import path from "path"
 import { fileURLToPath } from "url"
@@ -13,6 +14,7 @@ import colors from "colors"
 import morgan from "morgan"
 import { bootcampsRouter } from "./routes/bootcampsRoutes.js"
 import { coursesRouter } from "./routes/coursesRoutes.js"
+import { authRouter } from "./routes/authRoutes.js"
 import errorHandler from "./middleware/error.js"
 import "./utils/geocoder.js"
 // import logger from "./middleware/logger.js"
@@ -25,6 +27,7 @@ const PORT = process.env.PORT || 3000
 // body parser
 app.use(express.json()) // for parsing body, application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
@@ -42,18 +45,12 @@ app.use(express.static(path.join(__dirname, "public")))
 
 // Mount routers
 app.use("/api/v1/courses", coursesRouter)
+app.use("/api/v1/bootcamps", bootcampsRouter)
+app.use("/api/v1/auth", authRouter)
 
 // custom error handler
 app.use(errorHandler)
 
-
-// testing
-// app.use("/", (req, res) => {
-//     res.status(200).json({
-//         message: "api is working"
-//     })
-// } )
-app.use("/api/v1/bootcamps", bootcampsRouter)
 
 app.listen(PORT, () => {
     console.log(
