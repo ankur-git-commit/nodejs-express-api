@@ -6,8 +6,9 @@ import {
     updateBootcamp,
     deleteBootcamp,
     getBootcampsInRadius,
-    bootcampPhotoUpload
+    bootcampPhotoUpload,
 } from "../controllers/bootcampController.js"
+import { protect, authorize } from "../middleware/auth.js"
 import advancedResults from "../middleware/advancedResults.js"
 import Bootcamp from "../models/Bootcamp.js"
 
@@ -17,21 +18,23 @@ import { coursesRouter } from "./coursesRoutes.js"
 const router = Router()
 
 // Re-route into other resource routers
-router.use('/:bootcampId/courses', coursesRouter)
+router.use("/:bootcampId/courses", coursesRouter)
 
+router
+    .route("/")
+    .get(advancedResults(Bootcamp, "courses"), getAllBootcamps)
+    .post(protect, authorize("publisher", "admin"), createBootcamp)
 
-router.route("/")
-    .get(advancedResults(Bootcamp, 'courses'), getAllBootcamps)
-    .post(createBootcamp)
+router.route("/radius").get(getBootcampsInRadius)
 
-router.route("/radius")
-    .get(getBootcampsInRadius)
-
-router.route("/:id")
+router
+    .route("/:id")
     .get(getBootcamp)
-    .put(updateBootcamp)
-    .delete(deleteBootcamp)
+    .put(protect, authorize("publisher", "admin"), updateBootcamp)
+    .delete(protect, authorize("publisher", "admin"), deleteBootcamp)
 
-router.route("/:id/photo").put(bootcampPhotoUpload)
+router
+    .route("/:id/photo")
+    .put(protect, authorize("publisher", "admin"), bootcampPhotoUpload)
 
 export { router as bootcampsRouter }
