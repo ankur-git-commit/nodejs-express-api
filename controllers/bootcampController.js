@@ -38,6 +38,24 @@ const getBootcamp = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/bootcamps/
 // @access  Private
 const createBootcamp = asyncHandler(async (req, res, next) => {
+    // Add user to req.body
+    req.body.user = req.user.id
+
+    // Check for published bootcamp
+    const publishedBootCamp = !!(await Bootcamp.exists({ user: req.user.id }))
+
+    // if the user not an admin, they can only add one bootcamp
+    console.log(publishedBootCamp)
+    // console.log(req.user);
+    if (publishedBootCamp && req.user.role !== "admin") {
+        return next(
+            new ErrorResponse(
+                `The user with id ${req.user.id} has already published a bootcamp`,
+                400
+            )
+        )
+    }
+
     const bootcamp = await Bootcamp.create(req.body)
 
     res.status(201).json({
@@ -51,17 +69,33 @@ const createBootcamp = asyncHandler(async (req, res, next) => {
 // @access  Private
 const updateBootcamp = asyncHandler(async (req, res, next) => {
     const { id } = req.params
+    let bootcamp
+    // Check for the bootcamp id and the if the req.user.id matches the user in the DB
+    if (req.user.role === "admin") {
+        bootcamp = await Bootcamp.findByIdAndUpdate(id, req.body, {
+            new: true,
+            runValidators: true,
+        })
+    } else {
+        // Non-admin can only update their own bootcamp
 
-    const bootcamp = await Bootcamp.findByIdAndUpdate(id, req.body, {
-        new: true,
-        runValidators: true,
-    })
+        bootcamp = await Bootcamp.findOneAndUpdate(
+            { _id: id, user: req.user.id },
+            req.body,
+            {
+                new: true,
+                runValidators: true,
+            }
+        )
+        if (!bootcamp) {
+            return next(
+                new ErrorResponse(`User with the ${id} unauthorized`, 403)
+            )
+        }
+    }
 
     if (!bootcamp) {
-        return res.status(404).json({
-            success: false,
-            message: `item not found`,
-        })
+        return next(new ErrorResponse(`Bootcamp with the ${id} not found`, 404))
     }
 
     res.status(200).json({
@@ -75,14 +109,25 @@ const updateBootcamp = asyncHandler(async (req, res, next) => {
 // @access  Private
 const deleteBootcamp = asyncHandler(async (req, res, next) => {
     const { id } = req.params
+    let bootcamp
 
-    const bootcamp = await Bootcamp.findById(id)
+    // Check for the bootcamp id and if the req.user.id matches the user in the DB
+    if (req.user.role === "admin") {
+        // Admin can delete any bootcamp
+        bootcamp = await Bootcamp.findById(id)
+    } else {
+        // Non-admin can only delete their own bootcamp
+        bootcamp = await Bootcamp.findOne({ _id: id, user: req.user.id })
+
+        if (!bootcamp) {
+            return next(
+                new ErrorResponse(`User with the ${id} unauthorized`, 403)
+            )
+        }
+    }
 
     if (!bootcamp) {
-        return res.status(404).json({
-            success: false,
-            message: `item not found`,
-        })
+        return next(new ErrorResponse(`Bootcamp with the ${id} not found`, 404))
     }
 
     // Manually delete courses since .remove() in mongoose is deprecated
@@ -134,8 +179,22 @@ const getBootcampsInRadius = asyncHandler(async (req, res, next) => {
 //@access   Private
 const bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
     const { id } = req.params
+    let bootcamp
 
-    const bootcamp = await Bootcamp.findById(id)
+    // Check for the bootcamp id and if the req.user.id matches the user in the DB
+    if (req.user.role === "admin") {
+        // Admin can upload photo to any bootcamp
+        bootcamp = await Bootcamp.findById(id)
+    } else {
+        // Non-admin can only upload photo to their own bootcamp
+        bootcamp = await Bootcamp.findOne({ _id: id, user: req.user.id })
+        
+        if (!bootcamp) {
+            return next(
+                new ErrorResponse(`User with the ${id} unauthorized`, 403)
+            )
+        }
+    }
 
     if (!bootcamp) {
         return next(
@@ -167,9 +226,10 @@ const bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
     // Create custom file name
     file.name = `photo_${req.params.id}${path.parse(file.name).ext}`
     console.log(file)
+    
     file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
         if (err) {
-            console.err(err)
+            console.error(err) // Fixed: was console.err
             return next(new ErrorResponse(`Problem with file upload`, 500))
         }
 

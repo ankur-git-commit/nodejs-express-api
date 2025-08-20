@@ -5,6 +5,7 @@ import colors from "colors"
 dotenv.config({
     // Load env variables
     path: "./config/config.env",
+    quiet: true,
 })
 import path from "path"
 import { fileURLToPath } from "url"
@@ -12,6 +13,7 @@ import { fileURLToPath } from "url"
 // Load models
 import Bootcamp from "./models/Bootcamp.js"
 import Course from './models/Course.js'
+import User from "./models/User.js"
 
 //Connect to DB
 import connectDB from "./config/db.js"
@@ -29,15 +31,20 @@ const bootcamps = JSON.parse(
 const course = JSON.parse(
     fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8')
 )
+// users
+const user = JSON.parse(
+    fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
+)
 
 
 // Import into DB
 const importData = async () => {
     try {
         console.log("importing from directory: ",__dirname);
-
         await Bootcamp.create(bootcamps)
         await Course.create(course)
+        await User.create(user)
+
         console.log(`Data imported to MongoDB...`.green.inverse)
         process.exit()
     } catch (error) {
@@ -49,8 +56,11 @@ const importData = async () => {
 // Delete data
 const deleteData = async () => {
     try {
+        
         await Bootcamp.deleteMany()
         await Course.deleteMany()
+        await User.deleteMany()
+
         console.log(`Data deleted in MongoDB...`.red.inverse)
         process.exit()
     } catch (error) {

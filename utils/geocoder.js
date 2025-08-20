@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 // Load env variables
 dotenv.config({
     path: "./config/config.env",
+    quiet: true
 })
 
 import NodeGeocoder from "node-geocoder"
